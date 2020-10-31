@@ -103,9 +103,6 @@ int main()
 	print_array(matrix, num, num);      //Обращение к функции вывода двумерного массива
 	std::cout << "Минимум среди сумм элементов диагоналей параллельных главной диагонали матрицы: " << std::endl << minSumm(matrix, num);
 
-
-
-
 	for (int i = 0; i < row; i++)
 	{
 		delete[]doubMass[i];
@@ -113,3 +110,93 @@ int main()
 	delete[]doubMass;
 	std::cin.get();
 }
+
+//const int SIZE1 = 10;
+//const int SIZE2 = 10;
+//
+//void randomFillMass(int** arr, int N, int M)//указательная переменная, будущая массивом, и число ячеек массива
+//{
+//	for (int i = 0; i < N; i++)
+//	{
+//		for (int j = 0; j < M; j++)
+//		{
+//			arr[i][j] = 1 + rand() % 20;
+//		}
+//	}
+//}
+//
+//void print_array(int** arr, int N, int M)
+//{
+//	for (int i = 0; i < N; i++) {
+//		for (int j = 0; j < M; j++) {
+//			std::cout << arr[i][j] << '\t';
+//		}   std::cout << '\n';
+//	}
+//}
+//
+//void print_array(int mass[][SIZE2], int N, int M)
+//{
+//	for (int i = 0; i < N; i++) {
+//		for (int j = 0; j < M; j++) {
+//			std::cout << mass[i][j] << '\t';
+//		}   std::cout << '\n';
+//	}
+//}
+//
+////void randomFillMass(int mass[][SIZE2], int N, int M)
+////{
+////	for (int i = 0; i < N; i++)
+////	{
+////		for (int j = 0; j < M; j++)
+////		{
+////			mass[i][j] = 1 + rand() % 20;
+////		}
+////	}
+////}
+//
+//void randomFillMass(int *mass, int N, int M)
+//{
+//	for (int i = 0; i < N; i++)
+//	{
+//		for (int j = 0; j < M; j++)
+//		{
+//			*(mass + i * M + j) = 1 + rand() % 20;
+//		}
+//	}
+//}
+//
+//
+//int main()
+//{
+//	setlocale(LC_ALL, "Russian");
+//
+//	int mass[SIZE1][SIZE2];
+//	randomFillMass(*mass, SIZE1, SIZE2);
+//	print_array(mass, SIZE1, SIZE2);
+//
+//
+//
+//	int row = 0, col = 0;
+//	std::cout << "Введите количество строк: ";
+//	std::cin >> row;
+//	std::cout << "Введите количество колонок для каждой строки: ";
+//	std::cin >> col;
+//
+//	//память
+//	int** doubMass = new int* [row];   //Создание строк
+//	for (int i = 0; i < row; i++)
+//	{
+//		doubMass[i] = new int[col];  //Создание колонок для каждой строки
+//	}
+//	randomFillMass(doubMass, row, col);      //Обращение к функции заполнения двумерного массива
+//	print_array(doubMass, row, col);
+//
+//	// - память
+//	for (int i = 0; i < row; i++)
+//	{
+//		delete[] doubMass[i];
+//	}
+//	delete[] doubMass;
+//
+//	return 0;
+//}
