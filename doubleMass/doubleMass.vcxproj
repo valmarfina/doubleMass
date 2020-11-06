@@ -141,6 +141,9 @@
   <ItemGroup>
     <ClCompile Include="doubleMass.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="mass.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

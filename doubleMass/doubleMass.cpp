@@ -1,17 +1,30 @@
 ﻿#include <iostream>
 #include <ctime> 
+#include <fstream>
 
 
 //Ч1 - 13В - Количество столбцов, элементы которых упорядочены по возрастанию элементов
 //Ч2 - В13 - Минимум среди сумм элементов диагоналей параллельных главной диагонали матрицы(матр квадратная)
 
-void randomFillMass(int** arr, const int N, const int M)//указательная переменная, будущая массивом, и число ячеек массива
+const int SIZE1 = 10;
+const int SIZE2 = 10;
+//void randomFillMass(int** arr, const int N, const int M)//указательная переменная, будущая массивом, и число ячеек массива
+//{
+//	for (int i = 0; i < N; i++)
+//	{
+//		for (int j = 0; j < M; j++)
+//		{
+//			arr[i][j] = 1 + rand() % 2;
+//		}
+//	}
+//}
+void randomFillMass(int mass[][SIZE2], int N, int M)
 {
 	for (int i = 0; i < N; i++)
 	{
 		for (int j = 0; j < M; j++)
 		{
-			arr[i][j] = 1 + rand() % 20;
+			mass[i][j] = 1 + rand() % 20;
 		}
 	}
 }
@@ -25,7 +38,16 @@ void print_array(int** arr, const int N, const int M)
 	}
 }
 
-int columns(int** arr, const int N, const int M)
+void print_array(int mass[][SIZE2], int N, int M)
+{
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			std::cout << mass[i][j] << '\t';
+		}   std::cout << '\n';
+	}
+}
+
+int columns(int mass[][SIZE2], int N, int M)
 {
 	int counter = 0;
 
@@ -35,7 +57,7 @@ int columns(int** arr, const int N, const int M)
 		bool sequence = 1;
 		for (int i = 0; i < N - 1; i++)
 		{
-			if (arr[i][j] >= arr[i + 1][j])
+			if (mass[i][j] >= mass[i + 1][j])
 			{
 				sequence = 0;
 			}
@@ -70,8 +92,19 @@ int minSumm(int** arr, const int N)
 int main()
 {
 	setlocale(LC_ALL, "Russian");
+
 	//установка генератора случайных чисел; функция time(0) объявлена в <ctime>
 	srand(time(0));
+
+	std::cout << "Часть 1:" << std::endl << "СТАТИЧЕСКИЙ" << std::endl;
+	int mass[SIZE1][SIZE2];
+	randomFillMass(mass, SIZE1, SIZE2);
+	print_array(mass, SIZE1, SIZE2);
+	std::cout << "Количество столбцов, где элементы упорядочены по возрастанию = " << columns(mass, SIZE1, SIZE2) << std::endl;
+
+
+
+	std::cout << "Часть 2:" << std::endl << "ДИНАМЕЧЕСКИЙ" << std::endl;
 
 	int row = 0, col = 0;
 	std::cout << "Введите количество строк: ";
@@ -86,9 +119,8 @@ int main()
 		doubMass[i] = new int[col];  //Создание колонок для каждой строки
 	}
 
-	randomFillMass(doubMass, row, col);      //Обращение к функции заполнения двумерного массива
 	print_array(doubMass, row, col);     //Обращение к функции вывода двумерного массива
-	std::cout << "Количество столбцов, где элементы упорядочены по возрастанию: " << columns(doubMass, row, col) << std::endl;
+	
 
 	int num;
 	std::cout << "Введите размерность матрицы: ";
@@ -99,6 +131,43 @@ int main()
 	{
 		matrix[i] = new int[num];
 	}
+
+	//Создаем файловый поток и связываем его с файлом
+	std::ifstream file("mass.txt");
+	if (file.is_open())
+	{
+		//считаем сколько чисел в файле
+		int count = 0;  //число чисел в файле
+		int temp;
+
+		while (!file.eof())// пробегаем пока не встретим конец файла eof
+		{
+			file >> temp;//в пустоту считываем из файла числа
+			count++;// увеличиваем счетчик числа чисел
+		}
+
+		//Число чисел посчитано, теперь нам нужно понять сколько
+		//чисел в одной строке
+		//Для этого посчитаем число пробелов до знака перевода на новую строку 
+
+		//Вначале переведем каретку в потоке в начало файла
+		file.seekg(0, std::ios::beg);
+		file.clear();
+
+
+
+
+		//seekg это функция, которая позволяет искать произвольную позицию в файле
+
+
+		file.close();
+	}
+	else
+	{
+		//Если открытие файла прошло не успешно
+		std::cout << "Файл не найден.";
+	}
+
 	randomFillMass(matrix, num, num);      //Обращение к функции заполнения двумерного массива
 	print_array(matrix, num, num);      //Обращение к функции вывода двумерного массива
 	std::cout << "Минимум среди сумм элементов диагоналей параллельных главной диагонали матрицы: " << std::endl << minSumm(matrix, num);
@@ -111,71 +180,7 @@ int main()
 	std::cin.get();
 }
 
-//const int SIZE1 = 10;
-//const int SIZE2 = 10;
-//
-//void randomFillMass(int** arr, int N, int M)//указательная переменная, будущая массивом, и число ячеек массива
-//{
-//	for (int i = 0; i < N; i++)
-//	{
-//		for (int j = 0; j < M; j++)
-//		{
-//			arr[i][j] = 1 + rand() % 20;
-//		}
-//	}
-//}
-//
-//void print_array(int** arr, int N, int M)
-//{
-//	for (int i = 0; i < N; i++) {
-//		for (int j = 0; j < M; j++) {
-//			std::cout << arr[i][j] << '\t';
-//		}   std::cout << '\n';
-//	}
-//}
-//
-//void print_array(int mass[][SIZE2], int N, int M)
-//{
-//	for (int i = 0; i < N; i++) {
-//		for (int j = 0; j < M; j++) {
-//			std::cout << mass[i][j] << '\t';
-//		}   std::cout << '\n';
-//	}
-//}
-//
-////void randomFillMass(int mass[][SIZE2], int N, int M)
-////{
-////	for (int i = 0; i < N; i++)
-////	{
-////		for (int j = 0; j < M; j++)
-////		{
-////			mass[i][j] = 1 + rand() % 20;
-////		}
-////	}
-////}
-//
-//void randomFillMass(int *mass, int N, int M)
-//{
-//	for (int i = 0; i < N; i++)
-//	{
-//		for (int j = 0; j < M; j++)
-//		{
-//			*(mass + i * M + j) = 1 + rand() % 20;
-//		}
-//	}
-//}
-//
-//
-//int main()
-//{
-//	setlocale(LC_ALL, "Russian");
-//
-//	int mass[SIZE1][SIZE2];
-//	randomFillMass(*mass, SIZE1, SIZE2);
-//	print_array(mass, SIZE1, SIZE2);
-//
-//
-//
+
 //	int row = 0, col = 0;
 //	std::cout << "Введите количество строк: ";
 //	std::cin >> row;
