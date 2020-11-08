@@ -6,28 +6,30 @@
 //Ч1 - 13В - Количество столбцов, элементы которых упорядочены по возрастанию элементов
 //Ч2 - В13 - Минимум среди сумм элементов диагоналей параллельных главной диагонали матрицы(матр квадратная)
 
-const int SIZE1 = 10;
-const int SIZE2 = 10;
-//void randomFillMass(int** arr, const int N, const int M)//указательная переменная, будущая массивом, и число ячеек массива
+const int SIZE1 = 4;
+const int SIZE2 = 4;
+
+//void randomFillMass(int mass[][SIZE2], int N, int M)
 //{
 //	for (int i = 0; i < N; i++)
 //	{
 //		for (int j = 0; j < M; j++)
 //		{
-//			arr[i][j] = 1 + rand() % 2;
+//			mass[i][j] = 1 + rand() % 100;
 //		}
 //	}
 //}
-void randomFillMass(int mass[][SIZE2], int N, int M)
-{
-	for (int i = 0; i < N; i++)
-	{
-		for (int j = 0; j < M; j++)
-		{
-			mass[i][j] = 1 + rand() % 20;
-		}
-	}
-}
+
+//void randomFillMass(int** arr, const int N)
+//{
+//	for (int i = 0; i < N; i++)
+//	{
+//		for (int j = 0; j < N; j++)
+//		{
+//			arr[i][j] = 1 + rand() % 100;
+//		}
+//	}
+//}
 
 void print_array(int** arr, const int N, const int M)
 {
@@ -97,31 +99,19 @@ int main()
 	srand(time(0));
 
 	std::cout << "Часть 1:" << std::endl << "СТАТИЧЕСКИЙ" << std::endl;
-	int mass[SIZE1][SIZE2];
-	randomFillMass(mass, SIZE1, SIZE2);
+	int mass[SIZE1][SIZE2] =
+	{
+		{0, 19, -2, 3},
+		{1, 1, 2, 3},
+		{2, 1, 22, 3},
+		{6, -1, 222, 3}
+	};
+
+	//randomFillMass(mass, SIZE1, SIZE2);
 	print_array(mass, SIZE1, SIZE2);
 	std::cout << "Количество столбцов, где элементы упорядочены по возрастанию = " << columns(mass, SIZE1, SIZE2) << std::endl;
 
-
-
-	std::cout << "Часть 2:" << std::endl << "ДИНАМЕЧЕСКИЙ" << std::endl;
-
-	int row = 0, col = 0;
-	std::cout << "Введите количество строк: ";
-	std::cin >> row;
-	std::cout << "Введите количество колонок для каждой строки: ";
-	std::cin >> col;
-
-	//память
-	int** doubMass = new int* [row];   //Создание строк
-	for (int i = 0; i < row; i++)
-	{
-		doubMass[i] = new int[col];  //Создание колонок для каждой строки
-	}
-
-	print_array(doubMass, row, col);     //Обращение к функции вывода двумерного массива
-	
-
+	std::cout << "Часть 2:" << std::endl << "ДИНАМИЧЕСКИЙ" << std::endl;
 	int num;
 	std::cout << "Введите размерность матрицы: ";
 	std::cin >> num;
@@ -132,76 +122,7 @@ int main()
 		matrix[i] = new int[num];
 	}
 
-	//Создаем файловый поток и связываем его с файлом
-	std::ifstream file("mass.txt");
-	if (file.is_open())
-	{
-		//считаем сколько чисел в файле
-		int count = 0;  //число чисел в файле
-		int temp;
-
-		while (!file.eof())// пробегаем пока не встретим конец файла eof
-		{
-			file >> temp;//в пустоту считываем из файла числа
-			count++;// увеличиваем счетчик числа чисел
-		}
-
-		//Число чисел посчитано, теперь нам нужно понять сколько
-		//чисел в одной строке
-		//Для этого посчитаем число пробелов до знака перевода на новую строку 
-
-		//Вначале переведем каретку в потоке в начало файла
-		file.seekg(0, std::ios::beg);
-		file.clear();
-
-
-
-
-		//seekg это функция, которая позволяет искать произвольную позицию в файле
-
-
-		file.close();
-	}
-	else
-	{
-		//Если открытие файла прошло не успешно
-		std::cout << "Файл не найден.";
-	}
-
-	randomFillMass(matrix, num, num);      //Обращение к функции заполнения двумерного массива
-	print_array(matrix, num, num);      //Обращение к функции вывода двумерного массива
+	//print_array(matrix, num);
 	std::cout << "Минимум среди сумм элементов диагоналей параллельных главной диагонали матрицы: " << std::endl << minSumm(matrix, num);
 
-	for (int i = 0; i < row; i++)
-	{
-		delete[]doubMass[i];
-	}
-	delete[]doubMass;
-	std::cin.get();
 }
-
-
-//	int row = 0, col = 0;
-//	std::cout << "Введите количество строк: ";
-//	std::cin >> row;
-//	std::cout << "Введите количество колонок для каждой строки: ";
-//	std::cin >> col;
-//
-//	//память
-//	int** doubMass = new int* [row];   //Создание строк
-//	for (int i = 0; i < row; i++)
-//	{
-//		doubMass[i] = new int[col];  //Создание колонок для каждой строки
-//	}
-//	randomFillMass(doubMass, row, col);      //Обращение к функции заполнения двумерного массива
-//	print_array(doubMass, row, col);
-//
-//	// - память
-//	for (int i = 0; i < row; i++)
-//	{
-//		delete[] doubMass[i];
-//	}
-//	delete[] doubMass;
-//
-//	return 0;
-//}
